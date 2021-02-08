@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wyq.cloud.producer.web.mapper.UserMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.wyq.cloud.producer.web.entity.UserDO">
+        <id column="id" property="id" />
+        <result column="username" property="username" />
+        <result column="age" property="age"/>
+        <result column="realname" property="realname"/>
+        <result column="account" property="account"/>
+        <result column="create_time" property="createTime" />
+        <result column="update_time" property="updateTime" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, username,age,realname,account,create_time,update_time
+    </sql>
+
+    <select id="selectPageVo" resultMap="BaseResultMap" parameterType="com.wyq.cloud.producer.web.entity.UserDTO">
+        select
+          <include refid="Base_Column_List"/>
+        from
+          user
+        where 1=1
+        <if test="param.username != null and param.username !='' ">
+           AND  username like concat("%",#{param.username},"%")
+        </if>
+        <if test="param.age != null and param.age !='' ">
+            AND  age = #{param.age}
+        </if>
+    </select>
+
+</mapper>

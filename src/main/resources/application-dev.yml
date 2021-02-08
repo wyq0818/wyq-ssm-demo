@@ -1,0 +1,44 @@
+server:
+  port: 8099
+eureka:
+  instance:
+    instance-id: ssm-boot-producer
+    prefer-ip-address: true
+    lease-expiration-duration-in-seconds: 1
+    lease-renewal-interval-in-seconds: 2
+  client:
+    #注册的服务的地址
+    service-url:
+      #单机配置
+      defaultZone: http://localhost:8761/eureka
+      #集群配置
+      #defaultZone: http://eureka7001.com:7001/eureka,http://eureka7002.com:7002/eureka
+spring:
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: root
+    password: ZqjmOkAzb8D/jlUG8mRmMQ==
+    url: jdbc:mysql://localhost:3306/spring-boot?serverTimezone=UTC&useUnicode=true&characterEncoding=GBK
+    dbcp2:
+      initial-size: 5
+      min-idle: 5
+      max-wait-millis: 60000
+      time-between-eviction-runs-millis: 60000
+      min-evictable-idle-time-millis: 300000
+      validation-query: SELECT 1 FROM DUAL
+      test-while-idle: true
+      test-on-borrow: false
+      test-on-return: false
+      pool-prepared-statements: true
+      max-open-prepared-statements: 20
+    #druid加密
+    publicKey: GOURD-HXNLYW-201314
+    connection-properties: config.decrypt=true;publicKey=${spring.datasource.publicKey};password=${spring.datasource.password}
+    passwordCallbackClassName: com.wyq.cloud.producer.util.druid.DbPasswordCallback
+
+mybatis-plus:
+  mapper-locations: classpath:mapper/*.xml
+  type-aliases-package: com.wyq.cloud.producer.web.entity
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
